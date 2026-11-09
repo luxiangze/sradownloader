@@ -123,3 +123,24 @@ This fork ships a modified `sradownloader` based on upstream v3.11
 * `--force` is a flag again (upstream v3.11 declares it as `type=int`).
 * A results log `sradownloader_results.txt` is written to the output
   directory when the run finishes, including after Ctrl-C.
+
+Skills for AI agents
+---------------------
+
+This repo ships two Agent Skills (open `SKILL.md` format) so AI coding
+agents can configure and operate the downloader. Both live in
+`.agents/skills/` and `.claude/skills/` (identical copies, mirroring
+each other for Codex/Cursor and Claude Code discovery):
+
+* `sradownloader` — download SRA data: inputs, options, output naming,
+  resuming, results log, and troubleshooting.
+* `sradownloader-setup` — install and verify: prerequisites (Python 3,
+  SRA Toolkit `fasterq-dump`, `gzip`, optional `axel`), plus a
+  read-only environment check at
+  `sradownloader-setup/scripts/check-setup.sh`.
+
+Install them into an agent's global skills directory with:
+
+```bash
+npx skills add luxiangze/sradownloader -g -y
+```
