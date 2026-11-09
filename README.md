@@ -101,3 +101,25 @@ You can report any problems or bugs, or add feature requests in our [issue track
 
 
 
+Fork changes (v3.11-mod)
+-------------------------
+
+This fork ships a modified `sradownloader` based on upstream v3.11
+(`VERSION = "3.11-mod"`). Changes vs upstream:
+
+* Stream-process one sample at a time: each sample's GEO name is resolved
+  just before its download starts, instead of resolving the whole list
+  up front. If the output file already exists (and `--force` is not set),
+  the GEO lookup for that sample is skipped.
+* Axel support: if `axel` is installed it is auto-detected and used for
+  ENA downloads (`axel -n <threads>`); otherwise the built-in FTP
+  downloader is used. New option `--axel-threads` (default 16).
+* Progress bar: the built-in FTP downloader shows live speed and
+  percentage (remote file size is queried first).
+* Robustness: ENA REST queries time out after 30 s, partial files are
+  removed before a retry, and failure messages include the cause.
+* Input: besides `SraRunTable.txt`, a bare `SRR`/`ERR` accession is
+  also accepted.
+* `--force` is a flag again (upstream v3.11 declares it as `type=int`).
+* A results log `sradownloader_results.txt` is written to the output
+  directory when the run finishes, including after Ctrl-C.
