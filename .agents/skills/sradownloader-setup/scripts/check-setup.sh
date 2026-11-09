@@ -31,11 +31,14 @@ fi
 # --- sradownloader (required) ---
 SD="${1:-}"
 if [ -z "$SD" ]; then
-    if [ -x ./sradownloader ]; then SD="./sradownloader";
+    if [ -f ./sradownloader ]; then SD="./sradownloader";
     elif command -v sradownloader >/dev/null 2>&1; then SD="$(command -v sradownloader)";
     fi
 fi
 if [ -n "$SD" ] && [ -f "$SD" ]; then
+    if [ ! -x "$SD" ]; then
+        echo "WARN  sradownloader ($SD; present but not executable — run: chmod +x sradownloader)"
+    fi
     ver="$(python3 "$SD" --version 2>&1 || true)"
     echo "PASS  sradownloader ($SD; $ver)"
     case "$ver" in
